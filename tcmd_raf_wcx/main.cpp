@@ -221,8 +221,13 @@ int  STDCALL  PackFiles(char *PackedFile, char *SubPath, char *SrcPath, char *Ad
         }
         file = new RiotArchiveFile(PackedFile);
 
-        std::string subPath = SubPath ? SubPath : "";
-        subPath += "/";
+        std::string subPath;
+        if (SubPath) {
+            subPath = std::string(SubPath) + "\\";
+        }
+        else {
+            subPath = "";
+        }
 
         do {
             std::string targetName = AddList ? AddList : "";
@@ -233,7 +238,8 @@ int  STDCALL  PackFiles(char *PackedFile, char *SubPath, char *SrcPath, char *Ad
 
             std::string finalPath = (subPath + targetName);
             std::replace(finalPath.begin(), finalPath.end(), '\\', '/');
-            if (finalPath[finalPath.size()-1] == '/') {
+            auto isDirectory = finalPath[finalPath.size() - 1] == '/';
+            if (isDirectory) {
                 continue;
             }
 
@@ -273,9 +279,6 @@ int  STDCALL  DeleteFiles(char *PackedFile, char *DeleteList) {
                 auto start = name.substr(0, name.size() - 3);
                 std::transform(start.begin(), start.end(), start.begin(), tolower);
                 std::replace(start.begin(), start.end(), '\\', '/');
-                if (start[0] != '/') {
-                    start = std::string("/") + start;
-                }
 
                 for (unsigned int fileIdx = 0; fileIdx < file->getFileCount(); fileIdx++) {
                     auto fileName = file->getFileName(fileIdx);
