@@ -1,0 +1,14 @@
+LIBRARY
+
+EXPORTS
+OpenArchive=MyOpenArchive
+ReadHeader=MyReadHeader
+ProcessFile=MyProcessFile
+CloseArchive=MyCloseArchive
+SetChangeVolProc=SetChangeVolProc
+SetProcessDataProc=SetProcessDataProc
+DllMain=_DllMainCRTStartup
+GetPackerCaps
+CanYouHandleThisFile
+DeleteFiles
+PackFiles
